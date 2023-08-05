@@ -1,0 +1,32 @@
+*{
+    font-family: 'Roboto', sans-serif; /*paratodo 300 400 500 700 */
+    padding: 0;
+    margin: 0;
+
+}
+
+:root{
+    --color0: #EB4A5A ;
+    --color1: #F9FAFC ;
+    --color2: #F6F3F3 ; 
+    --color3: #434343 ; 
+    --color4: #274671 ;
+}
+.nav {
+    height: 60px;
+    width: 100%;
+    background-color: rgb(215, 226, 226) ;
+
+    display: flex;
+    align-items: center; /*alineacion Horizontal de los hijos*/
+    justify-content: space-between; 
+}
+.logo_img {
+    height: 100%;
+    padding-left: 40px;
+}
+.cart {
+    font-size: 40px;
+    padding-right: 40px;
+
+}
