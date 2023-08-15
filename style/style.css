@@ -31,6 +31,30 @@ body {
     justify-content: space-between;
 }
 
+.cart_container{
+    position: relative;
+    
+}
+
+.cart_amount{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background-color: var(--color3);
+    color: var(--color1);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 0.75em;
+
+}
+
 .logo_img {
     height: 100%;
     padding-left: 20px;
@@ -298,6 +322,7 @@ body {
     gap: 15px;
 
     flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
 .sizes {
@@ -342,4 +367,76 @@ body {
     justify-content: center;
     width: 70%;
     margin: auto;
+}
+
+
+.modal_container_info_cart{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    
+
+}
+
+.modal_container_input_button{
+    
+    display: flex;
+    
+    align-items: center;
+}
+.modal_input{
+    height: 25px;
+    width: 50%;
+    border: none;
+    background-color: var(--color2);
+    padding: 5px;
+    
+}
+.modal_button{
+    height: 30px;
+    width: 50%;
+
+    border: none;
+    border-radius: 5%;
+    background-color: var(--color4);
+    color: var(--color1);
+    font-size: 1em;
+    margin-left: 10px;
+
+    cursor: pointer;
+}
+
+.modal_info_button{
+    width: 100%;
+    max-width: 250px;
+    
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color0);
+    color: var(--color1);
+    font-size: 1em;
+
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.modal_info_button:hover{
+    background-color: var(--color3);
+}
+
+.modal_info_cart{
+    text-align: center;
+}
+.modal_text_alert{
+    font-size: 0.8em;
+    padding: 15px 0;
+    font-weight: 200;
+    
 }

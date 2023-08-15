@@ -27,9 +27,12 @@ async function main() {
         products: JSON.parse(window.localStorage.getItem("productsApi")) || await getProducts(),
         cart: JSON.parse(window.localStorage.getItem("cart")) || {},
     };
+
+
     console.log(db)
     showProducts(db)
     idProduct(db);
+    
 }
 main();
 
@@ -53,6 +56,7 @@ function showProducts(db) {
         `
     }
     productsHTML.innerHTML = html;
+    showAmountProduct(db);
 }
 
 function idProduct(db) {
@@ -63,6 +67,7 @@ function idProduct(db) {
 
 
     productHTML.forEach((element) => {
+
         element.addEventListener('click', (e) => {
 
             modalHTML.classList.remove('modal_hidden')
@@ -127,12 +132,26 @@ function idProduct(db) {
                             <div class="swiper-button-prev"></div>  
                             <div class="swiper-button-next"></div>
                         </div>
+
+                        <div class="modal_container_info_cart">
+                            <div class="modal_info_cart">
+                                <h5 class="modal_title_info_cart">Mantente en contacto</h5>
+                                <h5 class="modal_text_alert">!Suscribete para recibir noticias de productos y descuentos especiales</h5>
+                                <div class="modal_container_input_button">
+                                    <input class="modal_input" type="text" placeholder="Ingresa tu email">
+                                    <button class="modal_button">Suscribete</button>
+                                </div>
+                            </div>
+                            <button class="modal_info_button" type="submit">Añadir al carrito</button>
+                        </div>
                         
                     </div>             
             `
             modalHTML.innerHTML = html
             exitModal();
             productSimilarModal(productSimilar, id);
+            addProductToCart(db, id)
+            
 
             const swiper = new Swiper('.swiper', {
                 navigation: {
@@ -167,7 +186,10 @@ function productSimilarModal(productSimilar, id) {
                         <i class='bx bxs-circle black'></i>
                         <i class='bx bxs-circle red' ></i>
                         <h4 class="price"> $${element.price}.00</h4>
-                    </div>
+
+
+                        
+                        </div>
                 </div>
             
             </div>
@@ -179,7 +201,7 @@ function productSimilarModal(productSimilar, id) {
 
 
 }
-
+//<button class="cart_button">0</button>
 
 function exitModal() {
     const leftButtonHTML = document.querySelector('.modal_left_exit')
@@ -196,5 +218,52 @@ function exitModal() {
 
 }
 
+function addProductToCart(db, id){
+    
+    const buttonAddToCartHTML = document.querySelector('.modal_info_button')
+    
 
 
+    window.localStorage.setItem("products", JSON.stringify(db.products));
+    window.localStorage.setItem("cart", JSON.stringify(db.cart));
+
+    const productFind = db.products.filter((element) => element.id === id)
+    
+    const product = productFind[0]
+    console.log(product)
+    
+
+    buttonAddToCartHTML.addEventListener('click', () => {
+        const productId = product.id;
+    
+        if (!db.cart[productId]) {
+            db.cart[productId] = { ...product, amount: 1 };
+        } else {
+            if (product.quantity > db.cart[productId].amount) {
+                db.cart[productId].amount++;
+            } else {
+                console.log("No disponemos de más productos");
+            }
+        }
+    
+        window.localStorage.setItem("cart", JSON.stringify(db.cart));
+        showAmountProduct(db)
+    });
+    
+}
+
+function showAmountProduct(db) {
+    const amountHTML = document.querySelector('.cart_amount');
+    
+    let totalAmount = 0;
+
+    for (const product in db.cart) {
+
+        if (db.cart.hasOwnProperty(product)) {
+
+            totalAmount += db.cart[product].amount;
+        }
+    }
+    
+    amountHTML.innerHTML = totalAmount;
+}
