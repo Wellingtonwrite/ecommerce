@@ -32,6 +32,7 @@ async function main() {
     console.log(db)
     showProducts(db)
     idProduct(db);
+    insertProductToCart(db)
     
 }
 main();
@@ -142,6 +143,7 @@ function idProduct(db) {
                                     <button class="modal_button">Suscribete</button>
                                 </div>
                             </div>
+                                
                             <button class="modal_info_button" type="submit">Añadir al carrito</button>
                         </div>
                         
@@ -152,6 +154,8 @@ function idProduct(db) {
             productSimilarModal(productSimilar, id);
             addProductToCart(db, id)
             
+            
+            
 
             const swiper = new Swiper('.swiper', {
                 navigation: {
@@ -159,7 +163,7 @@ function idProduct(db) {
                     prevEl: '.swiper-button-prev',
                 },
             })
-
+            
 
         })
 
@@ -248,6 +252,7 @@ function addProductToCart(db, id){
     
         window.localStorage.setItem("cart", JSON.stringify(db.cart));
         showAmountProduct(db)
+        insertProductToCart(db)
     });
     
 }
@@ -266,4 +271,65 @@ function showAmountProduct(db) {
     }
     
     amountHTML.innerHTML = totalAmount;
+}
+
+
+function show_cart(){
+    const cartButtonHTML = document.querySelector('.cartButton')
+    const productCartHTML = document.querySelector('.productCart')
+
+    cartButtonHTML.addEventListener(("click"),() => {
+        //a la clase productCart le voy a agregar la clase showProductCart
+        productCartHTML.classList.toggle("showProductCart")
+    })
+
+}
+show_cart()
+
+
+function show_cart_add(){
+
+    const productCartHTML = document.querySelector('.productCart')
+    const cartAmountHTML = document.querySelector('.cart_amount')
+
+    cartAmountHTML.addEventListener(("click"),() => {
+        //a la clase productCart le voy a agregar la clase showProductCart
+        productCartHTML.classList.toggle("showProductCart")
+        console.log('hola');
+    })
+}
+show_cart_add()
+
+
+function insertProductToCart(db){
+
+    containerProductsHTML= document.querySelector('.card_header_cart_product')
+    let html = '';
+
+    console.log(db.cart)
+
+    for (productId in db.cart) {
+        const product = db.cart[productId];
+        html += `
+        <div class="product_to_buy">
+        <img class="img_product_cart" src="${product.image}" alt="">
+        <div class="product_description">
+            <div class="product_title">
+                <p class="product_name">${product.name}</p>
+                <p class="product_price_to_buy">Precio: $ ${product.price}</p>
+            </div>
+
+            <div class="product_handdle_to_buy">
+                <div class="minus"><i class='bx bx-minus' ></i></div>
+                <p class="quantity">${product.amount}</p>
+                <div class="plus"><i class='bx bx-plus' ></i></div>
+                <i class='bx bxs-trash trash'></i>
+            </div>
+        </div>
+        </div>
+        `
+    }
+
+    containerProductsHTML.innerHTML = html
+
 }

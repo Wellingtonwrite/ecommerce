@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,48 +10,80 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="./style/style.css">
     <link rel="stylesheet" href="https://ecommercebackend.fundamentos-29.repl.co/">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
-/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <title>e'commerce</title>
 </head>
+
 <body class="body ">
     <div class="app">
         <!--Hijo 1-->
         <div class="nav">
             <img class="logo_img" src="./img/logo_nombre.png" alt="">
-            
             <div class="cart_container">
-                <i class='bx bx-cart cart'></i>
-                <div class="cart_amount">0</div>
+                <i class='bx bx-cart cart cartButton'></i>
+                <div class="productCart">
+                    <div class="card_header_cart_product">
+
+                    </div>
+                    <div class="card_footer_cart_product">
+                        <div class="text_info_card_product">
+                            <p class="amount">Amount</p>
+                            <p class="price">$</p>
+                        </div>
+                        <button class="btn_buy">Comprar</button>
+                    </div>
+                </div>
             </div>
+            <div class="cart_amount">0</div>
         </div>
-        <!--Hijo2-->
-        <div class="container">
-            <img class="logo_center" src="./img/logo_blanco.png" alt="">
-        </div>
-        <!--Hijo 3-->
-        <div class="container_title">            
-            <h3 class="text">Todos nuestros productos</h3>
-            <select class="select" name="select">
-                <option value="value1" selected >Todos</option>
-                <option value="value2" >Shirt</option>
-                <option value="value3">Hoddie</option>
-                <option value="value4">Sweater</option>
-            </select>
-        </div>
-        <!--Hijo 4-->
-        <div class="container_product"></div>
+    </div>
+    <!--Hijo2-->
+    <div class="container">
+        <img class="logo_center" src="./img/logo_blanco.png" alt="">
+    </div>
+    <!--Hijo 3-->
+    <div class="container_title">
+        <h3 class="text">Todos nuestros productos</h3>
+        <select class="select" name="select">
+            <option value="value1" selected>Todos</option>
+            <option value="value2">Shirt</option>
+            <option value="value3">Hoddie</option>
+            <option value="value4">Sweater</option>
+        </select>
+    </div>
+    <!--Hijo 4-->
+    <div class="container_product"></div>
 
-        <div class="more_product">
-            <button class="button_more_product">Más productos</button>
-        </div>
+    <div class="more_product">
+        <button class="button_more_product">Más productos</button>
+    </div>
 
-        <div class="product_img_modal  modal_hidden modal_standard">
-            <div class="modal_container"></div>            
-        </div>
-        
+    <div class="product_img_modal  modal_hidden modal_standard">
+        <div class="modal_container"></div>
+    </div>
+
 
     </div>
+<!-- 
+    <div class="product_to_buy">
+        <img class="img_product_cart" src="${product.image}" alt="">
+        <div class="product_description">
+            <div class="product_title">
+                <p class="product_name">${product.name}</p>
+                <p class="product_price_to_buy">${product.price}</p>
+            </div>
+            <div class="product_size_color">
+                <p class="size">Talla:${product.description} </p>
+            </div>
+            <div class="product_handdle_to_buy">
+                <div class="minus">-</div>
+                <p class="quantity">0</p>
+                <div class="plus">+</div>
+                <i class='bx bxs-trash'></i>
+            </div>
+        </div>
+    </div>
+ -->
 
 
 
@@ -59,5 +92,5 @@
     <script src="./main/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 </footer>
-</html>
 
+</html>
