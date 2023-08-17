@@ -29,36 +29,17 @@ async function main() {
     };
 
 
-    console.log(db)
-    showProducts(db)
-    idProduct(db);
+    console.log(db)      
     insertProductToCart(db)
+    filterProducts(db);
+    deleteCart(db)
     
+    
+
+
 }
 main();
 
-function showProducts(db) {
-    //buscamos la clase del contenedor de los productos
-    const productsHTML = document.querySelector(".container_product");
-    //html hay te va..
-    let html = "";
-    for (element of db.products) {
-        html += `
-            <div class="product" id="${element.id}">
-                <img class="img_product" src="${element.image}" alt="imagen">
-                    <div class="description_product">
-                        <h2 class="title">${element.name}</h2>
-                        <i class='bx bxs-circle black'></i>
-                        <i class='bx bxs-circle red' ></i>
-                        <h4 class="price"> $${element.price}.00</h4>
-                    </div>
-            </div>
-            
-        `
-    }
-    productsHTML.innerHTML = html;
-    showAmountProduct(db);
-}
 
 function idProduct(db) {
     const productHTML = document.querySelectorAll('.product')
@@ -147,23 +128,38 @@ function idProduct(db) {
                             <button class="modal_info_button" type="submit">Añadir al carrito</button>
                         </div>
                         
-                    </div>             
+                </div>             
             `
             modalHTML.innerHTML = html
             exitModal();
             productSimilarModal(productSimilar, id);
             addProductToCart(db, id)
-            
-            
-            
+
+
+
 
             const swiper = new Swiper('.swiper', {
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
                 },
+                slidesPerView: 1,
+                breakpoints: {
+                    400:{
+                        slidesPerView: 2,
+                    },
+                    800: {
+                        slidesPerView: 4,
+                    },
+
+                },
+                on: {
+                    init(){
+
+                    }
+                }
             })
-            
+
 
         })
 
@@ -222,24 +218,24 @@ function exitModal() {
 
 }
 
-function addProductToCart(db, id){
-    
+function addProductToCart(db, id) {
+
     const buttonAddToCartHTML = document.querySelector('.modal_info_button')
-    
+
 
 
     window.localStorage.setItem("products", JSON.stringify(db.products));
     window.localStorage.setItem("cart", JSON.stringify(db.cart));
 
     const productFind = db.products.filter((element) => element.id === id)
-    
+
     const product = productFind[0]
     console.log(product)
-    
+
 
     buttonAddToCartHTML.addEventListener('click', () => {
         const productId = product.id;
-    
+
         if (!db.cart[productId]) {
             db.cart[productId] = { ...product, amount: 1 };
         } else {
@@ -249,17 +245,17 @@ function addProductToCart(db, id){
                 console.log("No disponemos de más productos");
             }
         }
-    
+
         window.localStorage.setItem("cart", JSON.stringify(db.cart));
         showAmountProduct(db)
         insertProductToCart(db)
     });
-    
+
 }
 
 function showAmountProduct(db) {
     const amountHTML = document.querySelector('.cart_amount');
-    
+
     let totalAmount = 0;
 
     for (const product in db.cart) {
@@ -269,30 +265,31 @@ function showAmountProduct(db) {
             totalAmount += db.cart[product].amount;
         }
     }
-    
+
     amountHTML.innerHTML = totalAmount;
 }
 
 
-function show_cart(){
+function show_cart(db) {
     const cartButtonHTML = document.querySelector('.cartButton')
     const productCartHTML = document.querySelector('.productCart')
 
-    cartButtonHTML.addEventListener(("click"),() => {
+    cartButtonHTML.addEventListener(("click"), () => {
         //a la clase productCart le voy a agregar la clase showProductCart
         productCartHTML.classList.toggle("showProductCart")
+        
     })
 
 }
 show_cart()
 
 
-function show_cart_add(){
+function show_cart_add() {
 
     const productCartHTML = document.querySelector('.productCart')
     const cartAmountHTML = document.querySelector('.cart_amount')
 
-    cartAmountHTML.addEventListener(("click"),() => {
+    cartAmountHTML.addEventListener(("click"), () => {
         //a la clase productCart le voy a agregar la clase showProductCart
         productCartHTML.classList.toggle("showProductCart")
         console.log('hola');
@@ -301,9 +298,9 @@ function show_cart_add(){
 show_cart_add()
 
 
-function insertProductToCart(db){
+function insertProductToCart(db) {
 
-    containerProductsHTML= document.querySelector('.card_header_cart_product')
+    containerProductsHTML = document.querySelector('.card_header_cart_product')
     let html = '';
 
     console.log(db.cart)
@@ -331,5 +328,157 @@ function insertProductToCart(db){
     }
 
     containerProductsHTML.innerHTML = html
+    showAmountProduct(db);
 
+}
+
+function filterProducts(db) {
+    const selectElement = document.getElementById("mySelect");
+
+    const productsHTML = document.querySelector(".container_product");
+
+    //html hay te va..
+    let html = "";
+    for (element of db.products) {
+        html += `
+    <div class="product" id="${element.id}">
+        <img class="img_product" src="${element.image}" alt="imagen">
+            <div class="description_product">
+                <h2 class="title">${element.name}</h2>
+                <i class='bx bxs-circle black'></i>
+                <i class='bx bxs-circle red' ></i>
+                <h4 class="price"> $${element.price}.00</h4>
+            </div>
+    </div>
+
+`
+    }
+    productsHTML.innerHTML = html;
+
+    selectElement.addEventListener("change", function () {
+        const selectedValue = selectElement.value;
+
+        if (selectedValue === 'todos') {
+            const productsHTML = document.querySelector(".container_product");
+
+            //html hay te va..
+            let html = "";
+            for (element of db.products) {
+                html += `
+    <div class="product" id="${element.id}">
+        <img class="img_product" src="${element.image}" alt="imagen">
+            <div class="description_product">
+                <h2 class="title">${element.name}</h2>
+                <i class='bx bxs-circle black'></i>
+                <i class='bx bxs-circle red' ></i>
+                <h4 class="price"> $${element.price}.00</h4>
+            </div>
+    </div>
+
+`
+            }
+            productsHTML.innerHTML = html;
+            
+
+        }
+
+        //-----------------hoddies
+        if (selectedValue === 'hoddie') {
+            const productsHTML = document.querySelector(".container_product");
+
+            const hoddieFilter = db.products.filter((element) => element.category == "hoddie")
+            console.log(hoddieFilter);
+            //html hay te va..
+            let html = "";
+            for (element of hoddieFilter) {
+                html += `
+            <div class="product" id="${element.id}">
+                <img class="img_product" src="${element.image}" alt="imagen">
+                    <div class="description_product">
+                        <h2 class="title">${element.name}</h2>
+                        <i class='bx bxs-circle black'></i>
+                        <i class='bx bxs-circle red' ></i>
+                        <h4 class="price"> $${element.price}.00</h4>
+                    </div>
+            </div>
+
+        `
+            }
+            productsHTML.innerHTML = html;
+            idProduct(db)
+        }
+
+        //-----------------Shirt
+
+        if (selectedValue === 'shirt') {
+            const productsHTML = document.querySelector(".container_product");
+
+            const hoddieFilter = db.products.filter((element) => element.category == "shirt")
+            console.log(hoddieFilter);
+            //html hay te va..
+            let html = "";
+            for (element of hoddieFilter) {
+                html += `
+            <div class="product" id="${element.id}">
+                <img class="img_product" src="${element.image}" alt="imagen">
+                    <div class="description_product">
+                        <h2 class="title">${element.name}</h2>
+                        <i class='bx bxs-circle black'></i>
+                        <i class='bx bxs-circle red' ></i>
+                        <h4 class="price"> $${element.price}.00</h4>
+                    </div>
+            </div>
+
+        `
+            }
+            productsHTML.innerHTML = html;
+            idProduct(db)
+        }
+
+        //-----------------sweater
+
+        if (selectedValue === "sweater") {
+            const productsHTML = document.querySelector(".container_product");
+
+            const hoddieFilter = db.products.filter((element) => element.category == "sweater")
+            console.log(hoddieFilter);
+            //html hay te va..
+            let html = "";
+            for (element of hoddieFilter) {
+                html += `
+            <div class="product" id="${element.id}">
+                <img class="img_product" src="${element.image}" alt="imagen">
+                    <div class="description_product">
+                        <h2 class="title">${element.name}</h2>
+                        <i class='bx bxs-circle black'></i>
+                        <i class='bx bxs-circle red' ></i>
+                        <h4 class="price"> $${element.price}.00</h4>
+                    </div>
+            </div>
+
+        `
+            }
+            productsHTML.innerHTML = html;
+            idProduct(db)
+        }
+
+        
+
+    });
+    idProduct(db)
+}
+
+function deleteCart(db){
+    const btnBuy = document.querySelector('.btn_buy')
+
+    btnBuy.addEventListener('click', () => { 
+
+        db.cart = {};
+        window.localStorage.setItem("cart", JSON.stringify(db.cart));
+        insertProductToCart(db);
+        
+        alert('Gracias por su compra')
+
+    });
+    
 }
